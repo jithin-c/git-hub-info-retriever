@@ -8,8 +8,8 @@ GIT_API_URL = "https://api.github.com/search/users?"
 class GitUser(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     login = models.CharField(max_length=250)
+    fullname = models.CharField(max_length=250, blank=True, null=True)
     avatar_url = models.CharField(max_length=1000, blank=True, default='')
-    url = models.CharField(max_length=1000)
     email = models.EmailField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -45,6 +45,18 @@ class GitUser(models.Model):
             user_obj.id = user_id
             user_obj.login = user.get('login')
             user_obj.avatar_url = user.get('avatar_url')
-            user_obj.url = user.get('url')
-            user_obj.email = user.get('email')
+
+            user_url = user.get('url')
+
+            user_fullname = ""
+            user_email = ""
+            if user_url:
+                response = requests.get(user_url)
+                if response.status_code == 200:
+                    user_details = json.loads(response.content)
+                    user_fullname = user_details.get('name')
+                    user_email = user_details.get('email')
+
+            user_obj.fullname = user_fullname
+            user_obj.email = user_email
             user_obj.save()

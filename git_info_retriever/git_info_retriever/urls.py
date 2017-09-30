@@ -19,5 +19,6 @@ from django.conf.urls import url, include
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-    url(r'^rest-api/', include('rest-api.urls', namespace='rest_api'))
+    url(r'^rest-api/', include('rest_api.urls', namespace='rest_api')),
+    url(r'^admin-panel/', include('admin_panel.urls', namespace='admin_panel'))
 ]
