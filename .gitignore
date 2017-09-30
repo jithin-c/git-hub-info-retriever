@@ -1,0 +1,14 @@
+*.log
+*.pyc
+.idea
+venv
+.DS_Store
+*~
+*.cache
+.idea/
+
+*.iml
+*.jar
+*.zip
+
+*logs*
