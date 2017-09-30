@@ -5,6 +5,14 @@ import requests
 GIT_API_URL = "https://api.github.com/search/users?"
 
 
+class UserAPICallHistory(models.Model):
+    post_data = models.CharField(max_length=1500)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('created',)
+
+
 class GitUser(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     login = models.CharField(max_length=250)
@@ -18,6 +26,8 @@ class GitUser(models.Model):
 
     @staticmethod
     def call_git_search_api(params_dict):
+        UserAPICallHistory.objects.create(post_data=params_dict)
+
         query_string = "q="
         for key, val in params_dict.iteritems():
             if val:
